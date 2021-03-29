@@ -129,6 +129,26 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
+    effect    = "Allow"
+    actions   = [
+      "iam:GetRole"
+    ]
+    resources = [
+      "arn:aws:iam::${local.account_id}:role/*"
+    ]
+  }
+
+  statement {
+    effect    = "Allow"
+    actions   = [
+      "iam:GetPolicy"
+    ]
+    resources = [
+      "arn:aws:iam::${local.account_id}:policy/*"
+    ]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "codebuild:CreateReportGroup",
