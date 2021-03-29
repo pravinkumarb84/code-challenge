@@ -172,6 +172,16 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
+    effect    = "Allow"
+    actions   = [
+      "elasticloadbalancing:*"
+    ]
+    resources = [
+      "arn:aws:elasticloadbalancing:${local.region}:${local.account_id}:loadbalancer/app/*"
+    ]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "codebuild:CreateReportGroup",
