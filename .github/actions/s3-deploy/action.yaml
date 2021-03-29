@@ -19,7 +19,7 @@ runs:
       shell: bash
     - run: |
         ITEMNAME=`basename $GITHUB_REF`
-        refs='master'
+        refs='main'
         if [[ ! $refs =~ $ITEMNAME ]]; then
           ITEMNAME="release"
         fi
