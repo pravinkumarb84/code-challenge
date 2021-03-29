@@ -141,7 +141,8 @@ data "aws_iam_policy_document" "cb_service_policy" {
   statement {
     effect    = "Allow"
     actions   = [
-      "iam:GetPolicy"
+      "iam:GetPolicy",
+      "iam:GetPolicyVersion"
     ]
     resources = [
       "arn:aws:iam::${local.account_id}:policy/*"
