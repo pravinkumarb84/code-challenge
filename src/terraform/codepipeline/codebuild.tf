@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "cc-demo-tf" {
-  name         = "bg-trek-tf"
+  name         = "cc-demo-tf-build"
   service_role = aws_iam_role.cc_demo_codebuild_service_role.arn
 
   artifacts {
