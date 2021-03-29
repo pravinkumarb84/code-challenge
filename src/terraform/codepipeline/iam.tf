@@ -132,6 +132,7 @@ data "aws_iam_policy_document" "cb_service_policy" {
     effect    = "Allow"
     actions   = [
       "iam:GetRole",
+      "iam:CreateRole",
       "iam:ListRolePolicies",
       "iam:ListAttachedRolePolicies"
     ]
@@ -144,6 +145,7 @@ data "aws_iam_policy_document" "cb_service_policy" {
     effect    = "Allow"
     actions   = [
       "iam:GetPolicy",
+      "iam:CreatePolicy",
       "iam:GetPolicyVersion"
     ]
     resources = [
