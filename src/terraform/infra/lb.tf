@@ -45,8 +45,13 @@ resource "aws_lb_target_group" "cc_demo_tg" {
 }
 
 resource "aws_s3_bucket" "cc-demo-lb-logs" {
-  bucket = "cc-demo-lb-bucket"
-  acl    = "private"
+  bucket        = "cc-demo-lb-bucket"
+  acl           = "private"
+  force_destroy = true
+
+  versioning {
+    enabled = true
+  }
 
   tags = {
     Name        = "cc-demo-lb-logs-bucket"
@@ -74,7 +79,7 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         }
         Action = "s3:PutObject"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs.prefix}/AWSLogs/${local.account_id}/*",
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs[0].prefix}/AWSLogs/${local.account_id}/*",
         ]
       },
       {
@@ -100,7 +105,7 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         }
         Action = "s3:PutObject"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs.prefix}/AWSLogs/${local.account_id}/*",
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs[0].prefix}/AWSLogs/${local.account_id}/*",
         ]
         Condition = {
           StringEquals = {
