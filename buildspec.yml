@@ -11,7 +11,6 @@ env:
 phases:
   install:
     commands:
-     # - yum -y install jq
       - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/0.14.4/terraform_0.14.4_linux_amd64.zip && unzip terraform.zip && mv terraform /usr/bin
   pre_build:
     commands:
@@ -22,10 +21,8 @@ phases:
   build:
     commands:
       - cd $CODEBUILD_SRC_DIR/src/terraform/infra/
-      - which terraform
-      - /usr/bin/terraform version
-      - /usr/bin/terraform init -backend-config=var/bootstrap.hcl
-      - if [[ $TF_STAGE == 'PLAN' ]]; then /usr/bin/terraform plan; DETAILED_EXIT_CODE=$?; fi;
-      - if [[ $TF_STAGE == 'APPLY' ]]; then /usr/bin/terraform apply --auto-approve; DETAILED_EXIT_CODE=$?; fi;
+      - terraform init -backend-config=var/bootstrap.hcl
+      - if [[ $TF_STAGE == 'PLAN' ]]; then terraform plan; DETAILED_EXIT_CODE=$?; fi;
+      - if [[ $TF_STAGE == 'APPLY' ]]; then terraform apply --auto-approve; DETAILED_EXIT_CODE=$?; fi;
       - echo "script DETAILED_EXIT_CODE is $DETAILED_EXIT_CODE";
       - if [[ ! "$DETAILED_EXIT_CODE" == "0" && ! "$DETAILED_EXIT_CODE" == "2" ]]; then exit $DETAILED_EXIT_CODE; fi
