@@ -12,3 +12,8 @@ variable "private_subnets_cidr" {
   type    = list(string)
   default = ["10.0.2.0/24"]
 }
+
+variable "role_arn" {
+  type    = string
+  default = ""
+}

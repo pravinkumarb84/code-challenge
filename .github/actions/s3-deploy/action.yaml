@@ -23,5 +23,5 @@ runs:
         if [[ ! $refs =~ $ITEMNAME ]]; then
           ITEMNAME="release"
         fi
-        docker run --rm -t -e AWS_ACCESS_KEY_ID=${{ inputs.key }} -e AWS_SECRET_ACCESS_KEY=${{ inputs.secret }} -e AWS_REGION=eu-west-2 -v `pwd`:/aws  amazon/aws-cli s3api put-object --tagging "CommitId=${GITHUB_SHA}&BranchOrTag=${GITHUB_REF}" --bucket cc-code-eu-west-2 --key cc-code-eu-west-2/$ITEMNAME/code.zip --body code.zip
+        docker run --rm -t -e AWS_ACCESS_KEY_ID=${{ inputs.key }} -e AWS_SECRET_ACCESS_KEY=${{ inputs.secret }} -e AWS_REGION=eu-west-2 -v `pwd`:/aws  amazon/aws-cli s3api put-object --tagging "CommitId=${GITHUB_SHA}&BranchOrTag=${GITHUB_REF}" --bucket cc-demo-cp-eu-west-2 --key cc-demo-code/$ITEMNAME/code.zip --body code.zip
       shell: bash

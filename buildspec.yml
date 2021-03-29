@@ -1,0 +1,32 @@
+version: 0.2
+env:
+  variables:
+    TF_STAGE: PLAN
+    IAM_ROLE: codebuild_service_role
+    CLUSTER_REGION: eu-west-2
+  exported-variables:
+    - DETAILED_EXIT_CODE
+phases:
+  install:
+    commands:
+      - yum -y install jq
+      - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/${TerraformVersion}/terraform_${TerraformVersion}_linux_amd64.zip && echo "${TerraformSha256} terraform.zip" | sha256sum -c --quiet && unzip terraform.zip && mv terraform /usr/bin
+
+  pre_build:
+    commands:
+      - aws_credentials=$(aws sts assume-role --role-arn arn:aws:iam::$AWS_ACCOUNT_ID:role/$IAM_ROLE --role-session-name $ENVIRONMENT)
+      - export AWS_ACCESS_KEY_ID=$(echo $aws_credentials|jq '.Credentials.AccessKeyId'|tr -d '"')
+      - export AWS_SECRET_ACCESS_KEY=$(echo $aws_credentials|jq '.Credentials.SecretAccessKey'|tr -d '"')
+      - export AWS_SESSION_TOKEN=$(echo $aws_credentials|jq '.Credentials.SessionToken'|tr -d '"')
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/src/terraform/infra/
+      - terraform init -backend-config=var/bootstrap.hcl
+      - if [[ $TF_STAGE == 'PLAN' ]]; then terraform plan; DETAILED_EXIT_CODE=$?; fi;
+      - if [[ $TF_STAGE == 'APPLY' ]]; then terraform apply --auto-approve; DETAILED_EXIT_CODE=$?; fi;
+      - echo "script DETAILED_EXIT_CODE is $DETAILED_EXIT_CODE";
+      - if [[ ! "$DETAILED_EXIT_CODE" == "0" && ! "$DETAILED_EXIT_CODE" == "2" ]]; then exit $DETAILED_EXIT_CODE; fi
+
+cache:
+  paths:
+    - "src/terraform/infra/builds/**/*"

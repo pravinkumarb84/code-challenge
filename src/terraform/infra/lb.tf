@@ -69,9 +69,9 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         Sid    = "S3_lb_access_1"
         Effect = "Allow"
         Principal = {
-        "AWS": [
-          data.aws_elb_service_account.main.arn
-        ]
+          "AWS" : [
+            data.aws_elb_service_account.main.arn
+          ]
         }
         Action = "s3:PutObject"
         Resource = [
