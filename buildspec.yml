@@ -21,8 +21,10 @@ phases:
   build:
     commands:
       - cd $CODEBUILD_SRC_DIR/src/terraform/infra/
-      - terraform init -backend-config=var/bootstrap.hcl
+      - which terraform
+      - /usr/bin/terraform version
+      - /usr/bin/terraform init -backend-config=var/bootstrap.hcl
       - if [[ $TF_STAGE == 'PLAN' ]]; then /usr/bin/terraform plan; DETAILED_EXIT_CODE=$?; fi;
-      - if [[ $TF_STAGE == 'APPLY' ]]; then /usr/binterraform apply --auto-approve; DETAILED_EXIT_CODE=$?; fi;
+      - if [[ $TF_STAGE == 'APPLY' ]]; then /usr/bin/terraform apply --auto-approve; DETAILED_EXIT_CODE=$?; fi;
       - echo "script DETAILED_EXIT_CODE is $DETAILED_EXIT_CODE";
       - if [[ ! "$DETAILED_EXIT_CODE" == "0" && ! "$DETAILED_EXIT_CODE" == "2" ]]; then exit $DETAILED_EXIT_CODE; fi
