@@ -74,7 +74,7 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         }
         Action = "s3:PutObject"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/cc-demo-lb-logs/AWSLogs/${local.account_id}/*",
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs.prefix}/AWSLogs/${local.account_id}/*",
         ]
       },
       {
@@ -100,7 +100,7 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         }
         Action = "s3:PutObject"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/cc-demo-lb-logs/AWSLogs/${local.account_id}/*",
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/${aws_lb.cc_demo_lb.access_logs.prefix}/AWSLogs/${local.account_id}/*",
         ]
         Condition = {
           StringEquals = {
