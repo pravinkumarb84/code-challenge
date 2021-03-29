@@ -109,12 +109,12 @@ data "aws_iam_policy_document" "cb_service_policy" {
   statement {
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = ["arn:aws:iam::${local.account_id}:role/${aws_iam_role.cc_demo_codebuild_service_role.name}",]
+    resources = ["arn:aws:iam::${local.account_id}:role/${aws_iam_role.cc_demo_codebuild_service_role.name}", ]
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "dynamodb:GetItem",
       "dynamodb:BatchGetItem",
       "dynamodb:Query",
@@ -129,10 +129,12 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "iam:GetRole",
       "iam:CreateRole",
+      "iam:PassRole",
+      "iam:AttachRolePolicy",
       "iam:ListRolePolicies",
       "iam:ListAttachedRolePolicies"
     ]
@@ -142,8 +144,8 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "iam:GetPolicy",
       "iam:CreatePolicy",
       "iam:GetPolicyVersion"
@@ -154,9 +156,13 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
-      "iam:GetInstanceProfile"
+    effect = "Allow"
+    actions = [
+      "iam:GetInstanceProfile",
+      "iam:CreateInstanceProfile",
+      "iam:DeleteInstanceProfile",
+      "iam:AddRoleToInstanceProfile",
+      "iam:RemoveRoleFromInstanceProfile"
     ]
     resources = [
       "arn:aws:iam::${local.account_id}:instance-profile/*"
@@ -164,8 +170,8 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "ec2:*"
     ]
     resources = [
@@ -174,8 +180,8 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "elasticloadbalancing:*"
     ]
     resources = [
