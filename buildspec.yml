@@ -10,7 +10,7 @@ env:
 phases:
   install:
     commands:
-      - yum -y install jq
+     # - yum -y install jq
       - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip && unzip terraform.zip && mv terraform /usr/bin
   pre_build:
     commands:
