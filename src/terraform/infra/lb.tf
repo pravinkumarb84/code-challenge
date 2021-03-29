@@ -74,26 +74,8 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
         }
         Action = "s3:PutObject"
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/prefix/AWSLogs/${local.account_id}/*",
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/cc-demo-lb-logs/AWSLogs/${local.account_id}/*",
         ]
-      },
-      {
-        Sid    = "S3_lb_access_3"
-        Effect = "Allow"
-        Principal = {
-          "Service" : [
-            "delivery.logs.amazonaws.com",
-          ]
-        }
-        Action = "s3:PutObject"
-        Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/prefix/AWSLogs/${local.account_id}/*",
-        ]
-        Condition = {
-          StringEquals = {
-            "s3:x-amz-acl" = "bucket-owner-full-control"
-          }
-        }
       },
       {
         Sid    = "S3_lb_access_2"
@@ -108,6 +90,24 @@ resource "aws_s3_bucket_policy" "lb_s3_policy" {
           "arn:aws:s3:::cc-demo-lb-bucket",
         ]
       },
+      {
+        Sid    = "S3_lb_access_3"
+        Effect = "Allow"
+        Principal = {
+          "Service" : [
+            "delivery.logs.amazonaws.com",
+          ]
+        }
+        Action = "s3:PutObject"
+        Resource = [
+          "arn:aws:s3:::${aws_s3_bucket.cc-demo-lb-logs.bucket}/cc-demo-lb-logs/AWSLogs/${local.account_id}/*",
+        ]
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+        }
+      }
     ]
   })
 }
