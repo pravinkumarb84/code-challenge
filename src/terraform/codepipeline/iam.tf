@@ -177,7 +177,7 @@ data "aws_iam_policy_document" "cb_service_policy" {
       "elasticloadbalancing:*"
     ]
     resources = [
-      "arn:aws:elasticloadbalancing:${local.region}:${local.account_id}:loadbalancer/app/*"
+      "arn:aws:elasticloadbalancing:${local.region}:${local.account_id}:*"
     ]
   }
 
