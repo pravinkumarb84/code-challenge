@@ -113,6 +113,22 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
+    effect    = "Allow",
+    actions   = [
+      "dynamodb:GetItem",
+      "dynamodb:BatchGetItem",
+      "dynamodb:Query",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:BatchWriteItem"
+    ],
+    resources = [
+      "arn:aws:dynamodb:${local.region}:${local.account_id}:table/terraform-lock"
+    ]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "codebuild:CreateReportGroup",
