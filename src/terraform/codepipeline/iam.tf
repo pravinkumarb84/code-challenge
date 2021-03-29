@@ -143,7 +143,8 @@ data "aws_iam_policy_document" "cb_service_policy" {
     effect    = "Allow"
     actions   = [
       "iam:GetPolicy",
-      "iam:GetPolicyVersion"
+      "iam:GetPolicyVersion",
+      "iam:ListAttachedRolePolicies"
     ]
     resources = [
       "arn:aws:iam::${local.account_id}:policy/*"
