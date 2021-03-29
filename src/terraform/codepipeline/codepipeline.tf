@@ -27,13 +27,13 @@ resource "aws_codepipeline" "cc-demo-codepipeline" {
   stage {
     name = "Deploy"
     action {
-      name             = "Plan"
-      category         = "Build"
-      version          = "1"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      run_order        = 1
-      output_artifacts = ["output-artifact"]
+      name            = "Plan"
+      category        = "Build"
+      version         = "1"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      run_order       = 1
+      input_artifacts = ["output-artifact"]
       configuration = {
         ProjectName = aws_codebuild_project.cc-demo-tf.name
         EnvironmentVariables = jsonencode([
@@ -46,13 +46,13 @@ resource "aws_codepipeline" "cc-demo-codepipeline" {
       }
     }
     action {
-      name             = "Apply"
-      category         = "Build"
-      version          = "1"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      run_order        = 2
-      output_artifacts = ["output-artifact"]
+      name            = "Apply"
+      category        = "Build"
+      version         = "1"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      run_order       = 2
+      input_artifacts = ["output-artifact"]
       configuration = {
         ProjectName = aws_codebuild_project.cc-demo-tf.name
         EnvironmentVariables = jsonencode([
