@@ -107,6 +107,12 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = ["arn:aws:iam::${local.account_id}:role/${aws_iam_role.cc_demo_codebuild_service_role.name}",]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "codebuild:CreateReportGroup",
