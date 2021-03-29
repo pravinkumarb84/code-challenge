@@ -1,0 +1,27 @@
+# action.yaml
+name: 'S3 Push'
+description: 'create zip from source code and push to specified s3 location'
+inputs:
+  key:
+    description: 'key id'
+    required: true
+  secret:
+    description: 'secret'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: echo ${GITHUB_SHA} > github_sha
+      shell: bash
+    - run: echo ${GITHUB_REF} > github_ref
+      shell: bash
+    - run: zip -r ../code.zip . -x ".*" && mv ../code.zip .
+      shell: bash
+    - run: |
+        ITEMNAME=`basename $GITHUB_REF`
+        refs='master'
+        if [[ ! $refs =~ $ITEMNAME ]]; then
+          ITEMNAME="release"
+        fi
+        docker run --rm -t -e AWS_ACCESS_KEY_ID=${{ inputs.key }} -e AWS_SECRET_ACCESS_KEY=${{ inputs.secret }} -e AWS_REGION=eu-west-2 -v `pwd`:/aws  amazon/aws-cli s3api put-object --tagging "CommitId=${GITHUB_SHA}&BranchOrTag=${GITHUB_REF}" --bucket cc-code-eu-west-2 --key cc-code-eu-west-2/$ITEMNAME/code.zip --body code.zip
+      shell: bash
