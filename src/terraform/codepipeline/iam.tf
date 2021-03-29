@@ -162,6 +162,16 @@ data "aws_iam_policy_document" "cb_service_policy" {
   }
 
   statement {
+    effect    = "Allow"
+    actions   = [
+      "ec2:*"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+
+  statement {
     effect = "Allow"
     actions = [
       "codebuild:CreateReportGroup",
