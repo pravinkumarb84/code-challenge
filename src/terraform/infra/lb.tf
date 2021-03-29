@@ -47,13 +47,22 @@ resource "aws_lb_target_group" "cc_demo_tg" {
 resource "aws_s3_bucket" "cc-demo-lb-logs" {
   bucket = "cc-demo-lb-bucket"
   acl    = "private"
+  force_destroy = true
+
+  versioning {
+    enabled = true
+  }
 
   tags = {
     Name        = "cc-demo-lb-logs-bucket"
     Owner       = "code-challenge"
     Environment = "demo"
   }
+
+
 }
+
+
 
 
 data "aws_elb_service_account" "main" {}
