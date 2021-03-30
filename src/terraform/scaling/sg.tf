@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg" {
-  name        = "cc-demo_ec2_sg"
+  name        = "cc-demo_scaling_sg"
   description = "allow incoming HTTP and HTTPS traffic"
-  vpc_id      = aws_vpc.vpc_cc.id
+  vpc_id      = aws_vpc.vpc_cc_scaling.id
 
   ingress {
     protocol    = "tcp"
@@ -18,7 +18,7 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name        = "sg-ec2"
+    Name        = "sg-scaling"
     Owner       = "code-challenge"
     Environment = "demo"
   }
